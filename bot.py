@@ -147,8 +147,8 @@ async def requestApi(update: Update, prompt, model, context: ContextTypes.DEFAUL
     }
     payload = {
         'key': 'YimEHAg0HxDBkYtZp7X8ZEv7u84XWtt66TgVA78BnGWQlLHe6cdoDQREjpV5',
-        'model_id': model,
-        'prompt': 'wearing a viking cap with horns,' + prompt + ', with viking helmet with horns on top of it',
+        'model_id': 'dreamlike-diffusion-',
+        'prompt': '' + prompt + ',viking helmet with horns on top of it',
         'negative_prompt': 'painting, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, deformed, ugly, blurry, bad anatomy, bad proportions, extra limbs, cloned face, skinny, glitchy, double torso, extra arms, extra hands, mangled fingers, missing lips, ugly face, distorted face, extra legs, anime',
         'width': '512',
         'height': '512',
@@ -197,7 +197,7 @@ async def downloadImage(id: int, downloadUrl: str, update: Update, prompt: str, 
                     f = await aiofiles.open(f'{id}.png', mode='wb')
                     await f.write(await resp.read())
                     # call watermark function
-                    if await add_watermark(f'{id}.png', '', update, context, username) == False:
+                    if await add_watermark(f'{id}.png', 'https://www.floki-tech.com/', update, context, username) == False:
                         await send_image(update, id, prompt, model, downloadUrl, context, username)
                         os.remove(f'{id}.png')
                         os.remove(f'{id}_watermarked.png')
@@ -252,7 +252,7 @@ async def add_watermark(file_path: str, watermark_text: str, update: Update, con
                 x = width / 2 - textwidth / 2
                 y = height - textheight - 300
 
-                draw.text((x+80, y+290), watermark_text, font=font)
+                draw.text((x+70, y+290), watermark_text, font=font)
             
                 new_file_path = file_path.split('.')[0] + '_watermarked.png'
                 img.save(new_file_path)
@@ -270,7 +270,7 @@ async def add_watermark(file_path: str, watermark_text: str, update: Update, con
                 
                     
 persistence = PicklePersistence(filepath="arbitrarycallbackdatabot")
-app = ApplicationBuilder().token("6077030247:AAHo2Vo4vLjOYs0bVblU4DBZIetNY13-Cjc").persistence(persistence).arbitrary_callback_data(True).build()
+app = ApplicationBuilder().token("5851341881:AAFi9Pt2XTdtNlcH-dPyXtWzeHKfEu_u90A").persistence(persistence).arbitrary_callback_data(True).build()
 
 app.add_handler(CommandHandler("start", hello))
 app.add_handler(CommandHandler("ft", gen))
