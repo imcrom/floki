@@ -14,9 +14,9 @@ import telegram
 from PIL import ImageDraw, ImageFont, Image
 
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_photo("https://i.ibb.co/k6xC6d5/pic.jpg", caption=f'Hi <b>{update.message.from_user.first_name}</b>!,\n\nI am <b>Floki Tech Bot</b>, I can generate any images with a viking hat\
-                                    \n\nYou can use the <b>/ft</b> followed by the prompt you want to generate your image with\
-                                        \n\neg.\n<i><b>/ft</b> Beautiful siberian woman, 4k, Ultra HD</i>\n\n⚔ <b>Floki Tech Bot</b> ⚔',
+    await update.message.reply_photo("https://i.ibb.co/cryp1qq/oeth.png", caption=f'🪙🪙 <b>Ordinal Eth Nft Image Generator</b> 🪙🪙,\n\nAn image generator bot for owned by <b>Ordinal ETH</b>. NFT generation hasn\'t been so easy\
+                                    \n\nYou can use the <b>/oeth</b> followed by the concept of the NFT image you want to generate\
+                                        \n\nexample.\n<i><b>/oeth</b> Astronaut </i>\n\n🪙🪙 <b>Ordinal Eth NFT Image Generator</b> 🪙🪙',
                                     parse_mode=ParseMode.HTML
                                     )
 
@@ -47,11 +47,11 @@ async def gen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     await context.bot.send_message (
         chat_id=update.message.chat.id,
-        text=f'I see you wanted to generate an image <b>{update.message.from_user.first_name},\n\nI am generating your image...\nPlease wait for it.</b>\n\n',
+        text=f'<b>NFT generation is now in process...</b>\n\nThis process may take a while, please be patient.\nNFT Image request of: <b>{update.message.from_user.first_name}</b>\n\n🪙🪙 <b>Ordinal Eth Nft Image Generator</b> 🪙🪙',
         parse_mode=ParseMode.HTML
     )
     
-    await requestApi(update.message, prompt, 'realistic-vision-v13', context, update.message.from_user.first_name)
+    await requestApi(update.message, prompt, 'all-in-one-pixel-mod', context, update.message.from_user.first_name)
 
     
 async def getModel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -147,8 +147,8 @@ async def requestApi(update: Update, prompt, model, context: ContextTypes.DEFAUL
     }
     payload = {
         'key': 'YimEHAg0HxDBkYtZp7X8ZEv7u84XWtt66TgVA78BnGWQlLHe6cdoDQREjpV5',
-        'model_id': 'dreamlike-diffusion-',
-        'prompt': '' + prompt + ',viking helmet with horns on top of it',
+        'model_id': 'dream-shaper-8797',
+        'prompt': prompt + ',pixelized, pixel art, pixel, pixelated, pixelated art, pixelated image, pixelated photo, pixelated picture, pixel portrait, pixelized portrait',
         'negative_prompt': 'painting, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, deformed, ugly, blurry, bad anatomy, bad proportions, extra limbs, cloned face, skinny, glitchy, double torso, extra arms, extra hands, mangled fingers, missing lips, ugly face, distorted face, extra legs, anime',
         'width': '512',
         'height': '512',
@@ -197,7 +197,7 @@ async def downloadImage(id: int, downloadUrl: str, update: Update, prompt: str, 
                     f = await aiofiles.open(f'{id}.png', mode='wb')
                     await f.write(await resp.read())
                     # call watermark function
-                    if await add_watermark(f'{id}.png', 'https://www.floki-tech.com/', update, context, username) == False:
+                    if await add_watermark(f'{id}.png', '', update, context, username) == False:
                         await send_image(update, id, prompt, model, downloadUrl, context, username)
                         os.remove(f'{id}.png')
                         os.remove(f'{id}_watermarked.png')
@@ -209,7 +209,7 @@ async def processing_update(update: Update, eta: int, context: ContextTypes.DEFA
     eta = math.ceil(eta)
 
 
-    text=f'Image requested by: <b>{username}</b>!\n\nProcessing will take <b>{eta}</b> seconds. Please wait...\n\n⚔ <b>Floki Tech Bot</b> ⚔'
+    text=f'NFT Image Generation is in process\n\nGeneration time will take about <b>{eta}</b> seconds. Please be patient...\n\n🪙🪙 <b>Ordinal Eth Nft Image Generator</b> 🪙🪙'
  
     await context.bot.send_message(
 		chat_id=update.chat.id,
@@ -219,10 +219,11 @@ async def processing_update(update: Update, eta: int, context: ContextTypes.DEFA
     
 async def error_update(update: Update, context: ContextTypes.DEFAULT_TYPE, username) -> None:
 
-    text= 'Hi {update.from_user.first_name}!\n\nDue to in-demand accesses and requests your image cannot be generated.\n\nPlease try again later.\n\n⚔ <b>Floki Tech Bot</b> ⚔'
+    text= f'Hi {username}!\n\nToo many people are using the bot right now.\n\nPlease try again later.\n\n🪙🪙 <b>Ordinal Eth Nft Image Generator</b> 🪙🪙'
     await context.bot.send_message(
             chat_id=update.chat.id,
-            text = f'{text}'
+            text = f'{text}',
+            parse_mode=ParseMode.HTML
         )
         
 async def send_image(update: Update, file_name: str, prompt: str, model: str, download_url: str, context: ContextTypes.DEFAULT_TYPE, username) -> None:
@@ -231,7 +232,7 @@ async def send_image(update: Update, file_name: str, prompt: str, model: str, do
         
         await context.bot.send_photo(
             chat_id=update.chat.id,
-            caption= f'<b>Floki image</b> created by: <b>{username}</b>\n\nPrompt:\n(<b>{prompt}</b>)\n\n⚔ <b>Floki Tech Bot</b> ⚔',
+            caption= f'<b>NFT image generation successful for:</b> <b>{username}</b>\n\nNFT Image Concept:\n<b>{prompt}</b>\n\n🪙🪙 <b>Ordinal Eth Nft Image Generator</b> 🪙🪙',
             photo=telegram.InputFile(file),
             parse_mode=ParseMode.HTML,
         )
@@ -270,9 +271,9 @@ async def add_watermark(file_path: str, watermark_text: str, update: Update, con
                 
                     
 persistence = PicklePersistence(filepath="arbitrarycallbackdatabot")
-app = ApplicationBuilder().token("6077030247:AAHo2Vo4vLjOYs0bVblU4DBZIetNY13-Cjc").persistence(persistence).arbitrary_callback_data(True).build()
+app = ApplicationBuilder().token("5678770037:AAFijhgHGAKAEAspvGTtKruhjDiWeZMfdUY").persistence(persistence).arbitrary_callback_data(True).build()
 
 app.add_handler(CommandHandler("start", hello))
-app.add_handler(CommandHandler("ft", gen))
+app.add_handler(CommandHandler("oeth", gen))
 app.add_handler(CallbackQueryHandler(getModel))
 app.run_polling()
