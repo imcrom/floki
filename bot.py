@@ -28,7 +28,7 @@ async def gen(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not inputs:
         await context.bot.send_message(
             chat_id=update.message.chat.id,
-            text=f'Hello {update.message.from_user.first_name}, Please enter the inputs after the /ft command',
+            text=f'Hello {update.message.from_user.first_name}, Please enter the inputs after the /oeth command',
         )
         return
 
